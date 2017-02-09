@@ -1,7 +1,4 @@
 
-
-
-
 /*
 
   PrintTest.pde
@@ -32,7 +29,7 @@ void draw(void) {
   
   //scrive il valore della fotoresistenza
   u8g.setPrintPos( 0, 9);
-  u8g.print(analogRead(luce), DEC);//sciviamo il valore della luce
+  u8g.print(analogRead(luce), DEC);//scriviamo il valore della luce
 
   //u8g.setFont(u8g_font_lucasfont_alternate);
   //u8g.drawStr( 0, 9, "Luce:");
