@@ -1,10 +1,12 @@
 
 /*
-
+  temp_Display con DS18B20 
+  ultima mod.09_02_2017
+  
   PrintTest.pde
 
   Universal 8bit Graphics Library, https://github.com/olikraus/u8glib/
-
+  
 */
 #define luce A1 //ingresso fotoresistenza
 #include "U8glib.h" //libreria per display
