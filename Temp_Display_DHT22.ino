@@ -49,7 +49,7 @@ u8g.drawLine( 7, 15, 121, 15);//disegno la riga sotto al titolo
   u8g.setFont(u8g_font_freedoomr10r);
   u8g.drawStr( 65,34, "U");
   u8g.setFont(u8g_font_lucasfont_alternate);
-  u8g.drawStr( 8,47, "Heat Index");
+  u8g.drawStr( 11,48, "Heat Index");
 
   //Gestione temperatura - umidità - HI
   float h = dht.readHumidity();//Umidità
@@ -74,37 +74,37 @@ u8g.drawLine( 7, 15, 121, 15);//disegno la riga sotto al titolo
 
 //valore indice calore, http://arduino.cc/en/Serial/Print
   u8g.setFont(u8g_font_freedoomr10r);
-  u8g.setPrintPos( 66, 51);
+  u8g.setPrintPos( 69, 51);
   u8g.print(hic,1); // aggiunto ",1" per un solo decimale
 //simbolo °
   u8g.setFont(u8g_font_lucasfont_alternate);
-  u8g.drawStr( 96, 44, "o");
+  u8g.drawStr( 100, 44, "o");
 
 
 
 //gestione dell'intensità luce sul display
  int ValoreLuce=analogRead(luce);
 
-  if(ValoreLuce<=700)
+  if(ValoreLuce<=720)
 { 
   u8g.setFont(u8g_font_lucasfont_alternate);
   u8g.setPrintPos( 34,61);
   u8g.print("Luce Scarsa");//scrivo il valore della luce
 }
  
-  if(ValoreLuce>700 && ValoreLuce<=830)
+  if(ValoreLuce>720 && ValoreLuce<=830)
 {
   
   u8g.setFont(u8g_font_lucasfont_alternate);
   u8g.setPrintPos( 34,61);
-  u8g.print("Poca Luce");//scrivo il valore della luce
+  u8g.print("Luce Normale");//scrivo il valore della luce
   
 } 
   if(ValoreLuce>830)
   {
   u8g.setFont(u8g_font_lucasfont_alternate);
   u8g.setPrintPos( 34,61);
-  u8g.print("Luce Normale");//scrivo il valore della luce
+  u8g.print("Luce Intensa");//scrivo il valore della luce
   }
 }
 
