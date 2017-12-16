@@ -1,7 +1,6 @@
 # Visualizzazione temperatura
 
-* Lettura temperatura tramite sensore DS18B20 
-* Lettura intensità luminosa tramite fotoresistenza
+* Modulo DS3231 accurate I2C real-time clock (RTC)
 * Lettura temperatura tramite sensore DHT22
 
 ##Visualizzazione Dati
