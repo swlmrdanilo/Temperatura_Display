@@ -5,6 +5,7 @@
 
 ##Visualizzazione Dati
 * Display OLED 1.3 Inch 128x64 chips SSH1106
+* Libreria Universal 8bit Graphics Library, https://github.com/olikraus/u8glib/
 
 ##Acquisizione temperatura, umidità e Indice di Calore
 * Sensore DHT22/AM2302
