@@ -14,7 +14,7 @@
   
 */
 
-
+#include "Wire.h"
 #include <DHT.h> //libreria sensore DHT22
 #include "U8glib.h" //libreria per display
 #define I_DHT22 14 //indica la porta dovè collegato il sensore DHT22 A0
@@ -31,7 +31,6 @@ Adafruit_BMP280 bme;
 
 
 // ------- parte DS3231 -------
-#include "Wire.h"
 #define DS3231_I2C_ADDRESS 0x68
 // Convert normal decimal numbers to binary coded decimal
 byte decToBcd(byte val)
@@ -79,7 +78,7 @@ readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,&year);
   //Grafica del display
   u8g.drawFrame(0,0,128,64);//disegno la cornice
   //u8g.drawLine( 7, 15, 121, 15);//disegno la riga sotto al titolo
-  u8g.setFont(u8g_font_freedoomr10r);
+  u8g.setFont(u8g_font_6x12);
   u8g.drawStr( 39,40, ":");
   u8g.drawStr( 81,40, ":");
   u8g.setFont(u8g_font_6x12);
@@ -89,13 +88,13 @@ readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,&year);
   u8g.drawStr( 81,11, "HI");
 
   //Ora
-  u8g.setFont(u8g_font_helvR24r);
+  u8g.setFont(u8g_font_courB18r);
   u8g.setPrintPos( 4,45);
   u8g.print(hour,DEC);
-  u8g.setFont(u8g_font_helvR24r);
+  u8g.setFont(u8g_font_courB18r);
   u8g.setPrintPos( 45,45);
   u8g.print(minute,DEC);
-  u8g.setFont(u8g_font_helvR24r);
+  u8g.setFont(u8g_font_courB18r);
   u8g.setPrintPos( 89,45);
   u8g.print(second,DEC);
   
@@ -145,6 +144,23 @@ readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,&year);
   u8g.setFont(u8g_font_profont10);
   u8g.drawStr( 33, 10, "o");
 
+//valore pressione
+  u8g.setFont(u8g_font_profont11);
+  u8g.setPrintPos( 8, 24);
+  u8g.print(bme.readPressure() / 100,0); // 100 Pa = 1 millibar
+  //simbolo mb
+  u8g.setFont(u8g_font_profont10);
+  u8g.drawStr( 34, 22, "mb");
+
+//valore altezza
+  u8g.setFont(u8g_font_profont11);
+  u8g.setPrintPos( 57, 24);
+  u8g.print(bme.readAltitude(1025),0);
+  //simbolo mb
+  u8g.setFont(u8g_font_profont10);
+  u8g.drawStr( 76, 22, "m");
+
+
   //valore umidità
   u8g.setFont(u8g_font_profont11);
   u8g.setPrintPos( 45, 13);
@@ -160,23 +176,6 @@ readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,&year);
   //simbolo °
   u8g.setFont(u8g_font_profont10);
   u8g.drawStr( 119, 10, "o");
-
-
-Serial.print("---- GY BMP 280 ----------------\n");   
-    Serial.print("Temperature = ");
-    Serial.print(bme.readTemperature());
-    Serial.println(" *C");
-    Serial.print("Pressure = ");
-    Serial.print(bme.readPressure() / 100); // 100 Pa = 1 millibar
-    Serial.println(" mb");
-    Serial.print("Approx altitude = ");
-    Serial.print(bme.readAltitude(1010.8));
-    Serial.println(" m");
-    Serial.print("--------------------------------\n\n");
-    
-   
-
-
 
 }
 
@@ -195,6 +194,19 @@ void setup(void) {
   // set the initial time here:
   // DS3231 seconds, minutes, hours, day, date, month, year
    //setDS3231time(00,35,17,7,25,11,17);// setta ora
+
+
+
+    Serial.print("---- GY BMP 280 ----------------\n");
+    Serial.print("Temperature = ");
+    Serial.print(bme.readTemperature());
+    Serial.println(" *C");
+    Serial.print("Pressure = ");
+    Serial.print(bme.readPressure() / 100); // 100 Pa = 1 millibar
+    Serial.println(" mb");
+    Serial.print("Approx altitude = ");
+    Serial.print(bme.readAltitude(1025));
+    Serial.println(" m");
 
 }
 void setDS3231time(byte second, byte minute, byte hour, byte dayOfWeek, byte
