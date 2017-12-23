@@ -3,18 +3,31 @@
   File modulo Clock DS3231 + DHT22 su display + Dispaly SH1106 128X64 + BMP280 
   Ultima mod.23/12/2017
   Aggiunto sensore BMP280
-  
+  VCC <----> 3.3v
+  GND <----> GND
+  SCL/SCK <----> A5(Analog pin 5)
+  SDA/SDI <----> A4(Analog pin 4)
+
 
 
   Universal 8bit Graphics Library, https://github.com/olikraus/u8glib/
   
 */
 
+
 #include <DHT.h> //libreria sensore DHT22
 #include "U8glib.h" //libreria per display
 #define I_DHT22 14 //indica la porta dovè collegato il sensore DHT22 A0
 #define DHTTYPE DHT22 //modello del sensore  DHT 22  (AM2302), AM2321
 DHT dht(I_DHT22, DHTTYPE); //Inizializzazione del sensore
+
+// ----- Sensore BMP280 -----
+#include "SPI.h"
+#include <Adafruit_Sensor.h>
+#include "Adafruit_BMP280.h"
+// #define BMP280_ADDRESS 0x76
+// usa I2C
+Adafruit_BMP280 bme;
 
 
 // ------- parte DS3231 -------
@@ -50,7 +63,15 @@ void displayTime()
   float t = dht.readTemperature();//Calcola la temperatura in Cesius
   float hic = dht.computeHeatIndex(t, h, false);//Calcola l'indice di calore in Cesius (isFahreheit = false)
 
-  
+
+  //BMP280 variables
+float BMP_pressure;    //To store the barometric pressure (Pa)
+float BMP_temperature;  //To store the temperature (oC)
+int BMP_altimeter;    //To store the altimeter (m) (you can also use it as a float variable)
+void getBMP280Values(void);
+
+
+ 
 byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
   // retrieve data from DS3231
 readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,&year);
@@ -77,6 +98,7 @@ readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,&year);
   u8g.setFont(u8g_font_helvR24r);
   u8g.setPrintPos( 89,45);
   u8g.print(second,DEC);
+  
 
   //Datario
   u8g.setFont(u8g_font_6x12);
@@ -139,14 +161,36 @@ readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,&year);
   u8g.setFont(u8g_font_profont10);
   u8g.drawStr( 119, 10, "o");
 
+
+Serial.print("---- GY BMP 280 ----------------\n");   
+    Serial.print("Temperature = ");
+    Serial.print(bme.readTemperature());
+    Serial.println(" *C");
+    Serial.print("Pressure = ");
+    Serial.print(bme.readPressure() / 100); // 100 Pa = 1 millibar
+    Serial.println(" mb");
+    Serial.print("Approx altitude = ");
+    Serial.print(bme.readAltitude(1010.8));
+    Serial.println(" m");
+    Serial.print("--------------------------------\n\n");
+    
+   
+
+
+
 }
+
+
+  
+
 
 void setup(void) {   
 
-  dht.begin();
+  dht.begin();//scrivo i dati del sensore DHT22
+  bme.begin();//scrivo i dati del sensore BMP22
 
 // ----------- DS3231 -------------
-  Wire.begin();
+  Wire.begin();//scrivo i dati del modulo DS3231
   Serial.begin(9600);
   // set the initial time here:
   // DS3231 seconds, minutes, hours, day, date, month, year
@@ -232,7 +276,7 @@ void loop(void) {
    } while( u8g.nextPage() );
   
   // rebuild the picture after some delay
-  delay(5);
+  delay(500);
 }
 
 
