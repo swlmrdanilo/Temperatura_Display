@@ -69,7 +69,7 @@ void setup(void)
   Serial.begin(9600);
   // set the initial time here:
   // DS3231 seconds, minutes, hours, day, date, month, year
-  //setDS3231time(00,35,17,7,25,11,17);// setta ora
+  //setDS3231time(20,57,12,5,28,9,18);// setta ora
 
 
   u8g.setColorIndex(1);
@@ -165,8 +165,8 @@ void draw1(void)
   u8g.drawFrame(0, 0, 128, 64); //disegno la cornice
   //u8g.drawLine( 7, 15, 121, 15);//disegno la riga sotto al titolo
   u8g.setFont(u8g_font_6x12);
-  u8g.drawStr( 39, 20, ":");
-  u8g.drawStr( 83, 20, ":");
+  //u8g.drawStr( 39, 20, ":");
+  //u8g.drawStr( 83, 20, ":");
   u8g.setFont(u8g_font_6x12);
   u8g.drawStr( 84, 57, "/");
   u8g.drawStr( 104, 57, "/");
@@ -227,7 +227,7 @@ void draw2(void)// schermata con i dati meteo
 {
   //Grafica del display draw1
   u8g.drawFrame(0, 0, 128, 64); //disegno la cornice
-  
+
 
 
   //Gestione temperatura - umidità - HI
